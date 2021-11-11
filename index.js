@@ -4,6 +4,8 @@ const path = require('path')
 const { Intents } = DiscordJS
 require("dotenv").config()
 
+const secrets = require('./secrets.json');
+
 
 const client = new DiscordJS.Client({
   // These intents are recommended for the built in help menu
@@ -26,4 +28,4 @@ client.on('ready', () => {
 
 
 
-client.login(process.env.TOKEN)
+client.login(secrets.discord_token)
