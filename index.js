@@ -20,7 +20,7 @@ client.on('ready', () => {
         // The name of the local folder for your command files
         commandsDir: path.join(__dirname, 'commands'),
         // What guilds your slash commands will be created in
-        testServers: ['529033279421153301']
+        testServers: ['529033279421153301', '880879298536431676']
     })
 })
 

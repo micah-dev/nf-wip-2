@@ -5,7 +5,7 @@ module.exports = {
     slash: 'both',
     testOnly: true,
 
-    callback: ({}) => {
+    callback: ({ }) => {
         return 'Pong'
     }
 }
