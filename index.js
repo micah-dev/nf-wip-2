@@ -3,8 +3,8 @@ const WOKCommands = require('wokcommands')
 const path = require('path')
 const { Intents } = DiscordJS
 require("dotenv").config()
-
 const secrets = require('./secrets.json');
+
 
 
 const client = new DiscordJS.Client({
@@ -15,6 +15,7 @@ const client = new DiscordJS.Client({
         Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     ],
 })
+
 
 
 client.on('ready', () => {

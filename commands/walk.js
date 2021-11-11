@@ -4,12 +4,13 @@ module.exports = {
     aliases: ['w'],
     category: 'Testing',
     description: 'Shows path between two buildings.',
+    
 
     slash: 'both',
     testOnly: true,
     
     // For the correct usage of the command
-    expectedArgs: '<building1> <building2>',
+    expectedArgs: '<origin> <destination>',
     minArgs: 2,
     maxArgs: 2,
     syntaxError: 'Incorrect usage! Please use "{PREFIX}add {ARGUMENTS}"',
@@ -17,11 +18,11 @@ module.exports = {
     // Invoked when the command is actually ran
     callback: ({ channel, interaction, args }) => {
         // Convert the arguments into numbers
-        const building1 = (args[0])
-        const building2 = (args[1])
+        const a = (args[0])
+        const b = (args[1])
         
         //const sum = number1 + number2;
-        const reply = "hello"
+        const reply = "Origin: " + a + " ," + " Destination: " + b
         
         // Reply with the sum
         //channel.send({
@@ -35,7 +36,7 @@ module.exports = {
 
         interaction.reply({
             content: reply,
-            ephemeral: true,
+            ephemeral: false,
         })
 
 
