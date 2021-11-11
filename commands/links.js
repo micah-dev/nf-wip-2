@@ -12,8 +12,6 @@ module.exports = {
     testOnly: true,
 
     callback: async ({ message, interaction, channel }) => {
-        
-        console.log()
 
         const embed_reply = new MessageEmbed()
             .setColor('#008080')
