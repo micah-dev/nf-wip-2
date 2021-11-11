@@ -2,7 +2,7 @@
   "name": "nf-wip-2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "core.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +12,7 @@
   "dependencies": {
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
+    "puppeteer": "^11.0.0",
     "wokcommands": "^1.5.3"
   }
 }
