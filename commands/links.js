@@ -11,7 +11,7 @@ module.exports = {
     slash: true,
     testOnly: true,
 
-    callback: async ({ message, interaction, channel }) => {
+    callback: async ({ interaction, channel }) => {
 
         const embed_reply = new MessageEmbed()
             .setColor('#008080')
@@ -49,5 +49,7 @@ module.exports = {
             ephemeral: true,
             embeds: [embed_reply]
         })
+
+        
     }
 }

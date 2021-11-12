@@ -28,27 +28,35 @@ module.exports = {
         page.close();
         
         
-        const attachment = new Discord.MessageAttachment(tempPath, tempFile);
-        
+        //const attachment = new Discord.MessageAttachment(tempPath, tempFile);
+        const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
+
         const embed_reply = new Discord.MessageEmbed()
             .setColor('#008080')
             .setTitle(`This Weeks Weather Forecast! 🌤`)
             //.attachFiles(attachment)
+            //.setImage('./commands/temp/weather.png')
+            //.setImage(`${tempFile}`)
             .setImage(`attachment://${tempFile}`)
-            //.setImage(tempPath)
+            //.setImage('https://imgur.com/TkalDv4')
             .setDescription(`[View on Web](${lookupURL})`)
             .setThumbnail(url = logo)
             .setTimestamp()
         
         
         
-        
-
-        // Send the response
-        interaction?.followUp({
+        interaction.reply({
             ephemeral: true,
             embeds: [embed_reply],
             files: [attachment]
         })
+
+        //await new Promise(resolve => setTimeout(resolve, 5000))
+
+        // Send the response
+        //interaction?.reply({
+        //    ephemeral: true,
+        //    embeds: [embed_reply]
+        //})
     }
 }
