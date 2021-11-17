@@ -1,16 +1,16 @@
 const puppeteer = require('puppeteer');
 const Discord = require('discord.js');
 
-const tempFile = `news.png`
+const tempFile = `park.png`
 const tempPath = `./commands/temp/${tempFile}`
-const lookupURL = 'https://www.ninertimes.com/news/'
+const lookupURL = 'https://pats.charlotte.edu'
 const logo = 'https://media.discordapp.net/attachments/886347148386529291/894761080348368966/bot_logo-white_on_transparent-06.png?width=850&height=858'
 
 
 module.exports = {
-    name: 'news',
+    name: 'park',
     category: 'Testing',
-    description: 'Shows UNCC weekly weather forecast.',
+    description: 'Shows UNCC parking lot capacity.',
     guildOnly: true,
 
     slash: true,
@@ -21,8 +21,12 @@ module.exports = {
         
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
+        //await page.goto(lookupURL, {
+        //    waitUntil: 'networkidle2',
+        //    timeout: 30000,
+        //})
         await page.goto(lookupURL)
-        const element = await page.$('#tncms-block-786297')
+        const element = await page.$('#block-block-55 > div > div');
         await element.screenshot({ path: tempPath })
         page.close();
         
@@ -31,8 +35,8 @@ module.exports = {
         const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
 
         const embed = new Discord.MessageEmbed()
-            .setColor('GREEN')
-            .setTitle(`The Niner Times! 📰`)
+            .setColor('BLUE')
+            .setTitle(`Parking Availability! 🚗`)
             .setImage(`attachment://${tempFile}`)
             //.setThumbnail(url = logo)
             .setTimestamp()
@@ -52,7 +56,7 @@ module.exports = {
             ephemeral: false
         })
         
-        await new Promise(resolve => setTimeout(resolve, 5000))
+        await new Promise(resolve => setTimeout(resolve, 10000))
 
         await interaction.editReply({
             //ephemeral: true,

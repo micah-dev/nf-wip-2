@@ -25,15 +25,18 @@ module.exports = {
         //const element = await page.$('#tncms-block-786297')
         //await element.screenshot({ path: tempPath })
 
-        const browser = await puppeteer.launch({ headless: true })
+        const browser = await puppeteer.launch()
         const page = await browser.newPage()
-        page.setViewport({ width: 1920, height: 1080 });
+        //page.setViewport({ width: 1920, height: 1080 });
+        //await page.goto(lookupURL, {
+        //    waitUntil: 'networkidle2',
+        //    timeout: 30000,
+        //})
         await page.goto(lookupURL)
         //await delay(5000)
         await page.waitForSelector('#main-content > div > div', { visible: true });
         const element = await page.$('#main-content > div > div')
         await element.screenshot({ path: tempPath })
-
         page.close();
         
         
@@ -47,7 +50,7 @@ module.exports = {
             //.setThumbnail(url = logo)
             .setTimestamp()
 
-            const button = new Discord.MessageActionRow()
+        const button = new Discord.MessageActionRow()
             .addComponents(
                 new Discord.MessageButton()
                     .setURL(`${lookupURL}`)
@@ -62,7 +65,7 @@ module.exports = {
             ephemeral: false
         })
         
-        await new Promise(resolve => setTimeout(resolve, 5000))
+        await new Promise(resolve => setTimeout(resolve, 10000))
 
         await interaction.editReply({
             //ephemeral: true,

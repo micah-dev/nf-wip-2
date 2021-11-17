@@ -42,7 +42,7 @@ module.exports = {
             //.setThumbnail(url = logo)
             .setTimestamp()
 
-            const button = new Discord.MessageActionRow()
+        const button = new Discord.MessageActionRow()
             .addComponents(
                 new Discord.MessageButton()
                     .setURL(`${lookupURL}`)

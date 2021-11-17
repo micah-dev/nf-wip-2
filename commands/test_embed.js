@@ -46,7 +46,7 @@ module.exports = {
                 
             )
 
-            await interaction.reply({
+        await interaction.reply({
                 ephemeral: true,
                 //content: 'Are you sure?',
                 embeds: [the_embed],
