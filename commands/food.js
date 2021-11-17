@@ -1,16 +1,16 @@
 const puppeteer = require('puppeteer');
 const Discord = require('discord.js');
 
-const tempFile = `weather.png`
+const tempFile = `food.png`
 const tempPath = `./commands/temp/${tempFile}`
-const lookupURL = 'https://www.google.com/search?q=UNCC+weather'
+const lookupURL = 'https://dineoncampus.com/unccharlotte/hours-of-operation'
 const logo = 'https://media.discordapp.net/attachments/886347148386529291/894761080348368966/bot_logo-white_on_transparent-06.png?width=850&height=858'
 
 
 module.exports = {
-    name: 'weather',
+    name: 'food',
     category: 'Testing',
-    description: 'Shows UNCC weekly weather forecast.',
+    description: 'Shows UNCC on-campus dining options.',
     guildOnly: true,
 
     slash: true,
@@ -19,11 +19,21 @@ module.exports = {
     callback: async ({ interaction }) => {
 
         
-        const browser = await puppeteer.launch()
+        //const browser = await puppeteer.launch()
+        //const page = await browser.newPage()
+        //await page.goto(lookupURL)
+        //const element = await page.$('#tncms-block-786297')
+        //await element.screenshot({ path: tempPath })
+
+        const browser = await puppeteer.launch({ headless: true })
         const page = await browser.newPage()
+        page.setViewport({ width: 1920, height: 1080 });
         await page.goto(lookupURL)
-        const element = await page.$('#rso > div:nth-child(2)');
+        //await delay(5000)
+        await page.waitForSelector('#main-content > div > div', { visible: true });
+        const element = await page.$('#main-content > div > div')
         await element.screenshot({ path: tempPath })
+
         page.close();
         
         
@@ -31,14 +41,9 @@ module.exports = {
         const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
 
         const embed = new Discord.MessageEmbed()
-            .setColor('#008080')
-            .setTitle(`This Weeks Weather Forecast! 🌤`)
-            //.attachFiles(attachment)
-            //.setImage('./commands/temp/weather.png')
-            //.setImage(`${tempFile}`)
+            .setColor('RED')
+            .setTitle(`Here are the hours for on campus dining this week! 🍕`)
             .setImage(`attachment://${tempFile}`)
-            //.setImage('https://imgur.com/TkalDv4')
-            //.setDescription(`[View on Web](${lookupURL})`)
             //.setThumbnail(url = logo)
             .setTimestamp()
 
@@ -50,21 +55,9 @@ module.exports = {
                     .setStyle('LINK')
                 
             )
-        
-        
-        // APPARENTLY, in discord.js@13, bots MUST
-        // respond to slash commands in 3 seconds,
-        // thus, we must either defer a reply and
-        // then edit it, or reply and then edit it.
-        
-        //interaction.reply({
-        //    ephemeral: true,
-        //    embeds: [embed_reply],
-        //    files: [attachment]
-        //})
 
-        
 
+        // Send a reply within 3 seconds, and then edit that reply.
         await interaction.deferReply({
             ephemeral: false
         })

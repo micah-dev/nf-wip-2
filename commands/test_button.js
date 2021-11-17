@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 
 module.exports = {
-    name: 'button',
+    name: 'test_button',
     category: 'Testing',
     description: 'Sends a button.',
 

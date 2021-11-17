@@ -1,14 +1,14 @@
 const puppeteer = require('puppeteer');
 const Discord = require('discord.js');
 
-const tempFile = `weather.png`
+const tempFile = `news.png`
 const tempPath = `./commands/temp/${tempFile}`
-const lookupURL = 'https://www.google.com/search?q=UNCC+weather'
+const lookupURL = 'https://www.ninertimes.com/news/'
 const logo = 'https://media.discordapp.net/attachments/886347148386529291/894761080348368966/bot_logo-white_on_transparent-06.png?width=850&height=858'
 
 
 module.exports = {
-    name: 'weather',
+    name: 'news',
     category: 'Testing',
     description: 'Shows UNCC weekly weather forecast.',
     guildOnly: true,
@@ -22,7 +22,7 @@ module.exports = {
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
         await page.goto(lookupURL)
-        const element = await page.$('#rso > div:nth-child(2)');
+        const element = await page.$('#tncms-block-786297')
         await element.screenshot({ path: tempPath })
         page.close();
         
@@ -31,14 +31,9 @@ module.exports = {
         const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
 
         const embed = new Discord.MessageEmbed()
-            .setColor('#008080')
-            .setTitle(`This Weeks Weather Forecast! 🌤`)
-            //.attachFiles(attachment)
-            //.setImage('./commands/temp/weather.png')
-            //.setImage(`${tempFile}`)
+            .setColor('GREEN')
+            .setTitle(`The Niner Times! 📰`)
             .setImage(`attachment://${tempFile}`)
-            //.setImage('https://imgur.com/TkalDv4')
-            //.setDescription(`[View on Web](${lookupURL})`)
             //.setThumbnail(url = logo)
             .setTimestamp()
 
@@ -50,21 +45,9 @@ module.exports = {
                     .setStyle('LINK')
                 
             )
-        
-        
-        // APPARENTLY, in discord.js@13, bots MUST
-        // respond to slash commands in 3 seconds,
-        // thus, we must either defer a reply and
-        // then edit it, or reply and then edit it.
-        
-        //interaction.reply({
-        //    ephemeral: true,
-        //    embeds: [embed_reply],
-        //    files: [attachment]
-        //})
 
-        
 
+        // Send a reply within 3 seconds, and then edit that reply.
         await interaction.deferReply({
             ephemeral: false
         })

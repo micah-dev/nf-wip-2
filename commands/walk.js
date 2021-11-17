@@ -1,7 +1,6 @@
 module.exports = {
     // Best practice for the built-in help menu
     name: 'walk',
-    aliases: ['w'],
     category: 'Testing',
     description: 'Shows path between two buildings.',
     

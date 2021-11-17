@@ -4,6 +4,7 @@ const lookupURL = 'https://www.google.com/search?q=UNCC+weather'
 const logo = 'https://media.discordapp.net/attachments/886347148386529291/894761080348368966/bot_logo-white_on_transparent-06.png?width=850&height=858'
 
 module.exports = {
+    name: 'test_embed',
     category: 'Testing',
     description: 'Sends an embed.',
 

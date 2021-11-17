@@ -1,3 +1,5 @@
+// TODO: Migrate this to BUTTONS (maybe)
+
 const { MessageEmbed } = require("discord.js")
 const logo = 'https://media.discordapp.net/attachments/886347148386529291/894761080348368966/bot_logo-white_on_transparent-06.png?width=850&height=858'
 
