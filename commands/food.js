@@ -48,7 +48,6 @@ module.exports = {
                     .setURL(`${lookupURL}`)
                     .setLabel('View on Web')
                     .setStyle('LINK')
-                
             )
 
         // Actually send the reply
