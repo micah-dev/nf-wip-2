@@ -1,67 +1,110 @@
-// Goal:
-// Have a user use /todo:
-    // /todo list --> lists all todos
-    // /todo add --> adds a new todo
-            // /todo add <todo_name> <due_date> <due_time>
-    // /todo delete --> deletes a todo from the todo list
-    // /todo clear --> deletes all todos
+
+const Discord = require('discord.js')
+const secrets = require('../secrets.json')
+
+// ---------- TODO LOGIC
+
+// For the given user:
+    // List all todos as individual embeds.
+function listTodos(member, interaction, cmd_name, cmd_data) {
+    user_id = member.id
+    user_name = member.nickname
+    // Debug
+    console.log("cmd_name: ", cmd_name)
+    console.log("user_id: ", user_id)
+    console.log("user_name: ", user_name)
 
 
-    const Discord = require('discord.js')
-    const secrets = require('../secrets.json')
+    // Testing
+    const embed = new Discord.MessageEmbed()
+        .setColor('GREEN')
+        .setTitle(`todo -list`)
+
+    interaction?.reply({
+        ephemeral: false,
+        embeds: [embed]
+    })
+}
+
+// For the given user:
+    // Create a new todo called <todo_name> at <todo_due_date> at <todo_due_time> with
+    // randomly generated <todo_id>
+function newTodo(member, interaction, cmd_name, cmd_data) {
+    user_id = member.id
+    user_name = member.nickname
+    todo_name = cmd_data[0].options[0].value
+    todo_due_date = cmd_data[0].options[1].value
+    todo_due_time = cmd_data[0].options[2].value
+    // Debug
+    console.log("cmd_name: ", cmd_name)
+    console.log("user_id: ", user_id)
+    console.log("user_name: ", user_name)
+    // Subcommand Debug
+    console.log("todo_name: ", todo_name)
+    console.log("todo_due_date: ", todo_due_date)
+    console.log("todo_due_time: ", todo_due_time)
+
+
+    // Testing
+    const embed = new Discord.MessageEmbed()
+        .setColor('GREEN')
+        .setTitle(`todo -new`)
+
+    interaction?.reply({
+        ephemeral: false,
+        embeds: [embed]
+    })
+}
+
+// For the given user:
+    // Delete a todo using <todo_id>
+function deleteTodo(member, interaction, cmd_name, cmd_data) {
+    user_id = member.id
+    user_name = member.nickname
+    todo_id = cmd_data[0].options[0].value
+    // Debug
+    console.log("cmd_name: ", cmd_name)
+    console.log("user_id: ", user_id)
+    console.log("user_name: ", user_name)
+    // Subcommand Debug
+    console.log("todo_id: ", todo_id)
+
+
+    // Testing
+    const embed = new Discord.MessageEmbed()
+        .setColor('GREEN')
+        .setTitle(`todo -delete`)
+
+    interaction?.reply({
+        ephemeral: false,
+        embeds: [embed]
+    })
+}
+
+// For the given user:
+    // Delete all todos.
+function clearTodos(member, interaction, cmd_name, cmd_data) {
+    user_id = member.id
+    user_name = member.nickname
+    // Debug
+    console.log("cmd_name: ", cmd_name)
+    console.log("user_id: ", user_id)
+    console.log("user_name: ", user_name)
+
     
-    function showTodoList(member, interaction) {
-        const embed = new Discord.MessageEmbed()
-                    .setColor('RED')
-                    .setTitle('LISTING ALL TODOS')
-                    //.setTitle(`Walk`)
-                    //.setImage(response)
-                    //.setThumbnail(url = logo)
-                    .setTimestamp()
-                    .setAuthor(`${member.nickname}`)
-    
-        interaction.editReply({
-            embeds: [embed],
-        })
-    }
-    
-    function addTodoItem(member, interaction, args) {
-    
-    
-        // testing stuff
-    
-        //console.log(args)
-    
-        //const { name, due_date, due_time } = args
-    
-        const name = (args[0])
-        const due_date = (args[1])
-        const due_time = (args[2])
-    
-        const embed1 = new Discord.MessageEmbed()
-                    .setColor('RED')
-                    .setTitle(`☑️  ${member.nickname}\'s ToDo List:`)
-    
-                    //.addField(name, '> Due on: ')
-    
-        const embed2 = new Discord.MessageEmbed()
-                    .setColor('GREEN')
-                    .setTitle(name)
-    
-                    .addField("DUE:", '> ' + due_date + ' at ' + due_time)
-                    //.addField("Due by:", '> ' + due_time)
-    
-        const embed3 = new Discord.MessageEmbed()
-                    .setColor('GREEN')
-                    .setTitle("Machine Learning Mini-Project #2")
-    
-                    .addField("DUE:", '> ' + '11/21/2021' + ' at ' + '11:59 PM')
-                    //.addField("Due by:", '> ' + due_time)
-    
-        interaction.editReply({
-            embeds: [embed1, embed2, embed3],
-        })
-    }
+    // Testing
+    const embed = new Discord.MessageEmbed()
+        .setColor('GREEN')
+        .setTitle(`todo -clear`)
+
+    interaction?.reply({
+        ephemeral: false,
+        embeds: [embed]
+    })
+}
+
+
+// ----------
     
     
     module.exports = {
@@ -69,7 +112,7 @@
         guildOnly: true,
         slash: true,
         testOnly: true,
-    
+        
         name: 'todo',
         description: 'Create a todo list and get task reminders!',
         type: 2,
@@ -129,58 +172,44 @@
             }
         ],
         
-    
+        
         callback: async ({ interaction, member, args }) => {
-    
             
-    
+            
+            
             // Send an initial reply within 3 seconds, and then edit that reply.
-            await interaction.deferReply({
-                ephemeral: false
-            })
-            await new Promise(resolve => setTimeout(resolve, 5000))
-    
-            console.log(args)
+            // await interaction.deferReply({
+            //     ephemeral: false
+            // })
+            // await new Promise(resolve => setTimeout(resolve, 5000))
 
-            console.log(args[0])
 
-            console.log(args[1])
-
+            
             if (interaction.commandName === 'todo') {
+
+                // Will exist for all subcommands
+                cmd_name = interaction.options.getSubcommand()
+                cmd_data = interaction.options.data
+
                 if (interaction.options.getSubcommand() === '-list') {
-                    listTodos(member, interaction, args)
+                    listTodos(member, interaction, cmd_name, cmd_data)
                 }
                 if (interaction.options.getSubcommand() === '-new') {
-                    newTodo(member, interaction, args)
+                    newTodo(member, interaction, cmd_name, cmd_data)
                 }
                 if (interaction.options.getSubcommand() === '-delete') {
-                    deleteTodo(member, interaction, args)
+                    deleteTodo(member, interaction, cmd_name, cmd_data)
                 }
                 if (interaction.options.getSubcommand() === '-clear') {
-                    clearTodos(member, interaction, args)
+                    clearTodos(member, interaction, cmd_name, cmd_data)
                 }
             }
-    
+
+
             
-    
-            // const embed = new Discord.MessageEmbed()
-            //             .setColor('RED')
-            //             .setTitle(`${member.id}`)
-            //             //.setTitle(`Walk`)
-            //             //.setImage(response)
-            //             //.setThumbnail(url = logo)
-            //             .setTimestamp()
-            //             .setAuthor(`${member.nickname}`)
-    
-    
-    
-            // interaction.editReply({
-            //     embeds: [embed],
-            //     components: [button],
-    
-                
-            // })
-    
-    
+        
+        
+        
+        
         }
     }
