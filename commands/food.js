@@ -19,37 +19,29 @@ module.exports = {
     callback: async ({ interaction }) => {
 
         
-        //const browser = await puppeteer.launch()
-        //const page = await browser.newPage()
-        //await page.goto(lookupURL)
-        //const element = await page.$('#tncms-block-786297')
-        //await element.screenshot({ path: tempPath })
+        // Send an initial reply within 3 seconds, and then edit that reply.
+        await interaction.deferReply({
+            ephemeral: false
+        })
+        await new Promise(resolve => setTimeout(resolve, 10000))
 
+        // Get the screenshot
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
-        //page.setViewport({ width: 1920, height: 1080 });
-        //await page.goto(lookupURL, {
-        //    waitUntil: 'networkidle2',
-        //    timeout: 30000,
-        //})
+        page.setViewport({ width: 1920, height: 1080 });
         await page.goto(lookupURL)
-        //await delay(5000)
         await page.waitForSelector('#main-content > div > div', { visible: true });
         const element = await page.$('#main-content > div > div')
         await element.screenshot({ path: tempPath })
         page.close();
         
-        
-        //const attachment = new Discord.MessageAttachment(tempPath, tempFile);
+        // Construct the reply
         const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
-
         const embed = new Discord.MessageEmbed()
             .setColor('RED')
             .setTitle(`Here are the hours for on campus dining this week! 🍕`)
             .setImage(`attachment://${tempFile}`)
-            //.setThumbnail(url = logo)
             .setTimestamp()
-
         const button = new Discord.MessageActionRow()
             .addComponents(
                 new Discord.MessageButton()
@@ -59,22 +51,11 @@ module.exports = {
                 
             )
 
-
-        // Send a reply within 3 seconds, and then edit that reply.
-        await interaction.deferReply({
-            ephemeral: false
-        })
-        
-        await new Promise(resolve => setTimeout(resolve, 10000))
-
+        // Actually send the reply
         await interaction.editReply({
-            //ephemeral: true,
             embeds: [embed],
             files: [attachment],
             components: [button],
         })
-
-    
-
     }
 }

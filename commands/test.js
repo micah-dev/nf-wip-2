@@ -32,7 +32,7 @@ module.exports = {
         await element.screenshot({ path: tempPath })
         page.close();
         
-        const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
+        const attachment = new Discord.MessageAttachment('https://indify.co/widgets/live/weather/o2URfkUkMbQitvmOCjI0');
 
         const embed_reply = new Discord.MessageEmbed()
             .setColor('#008080')
@@ -40,10 +40,10 @@ module.exports = {
             //.attachFiles(attachment)
             //.setImage('./commands/temp/weather.png')
             //.setImage(`${tempFile}`)
-            .setImage(`attachment://${tempFile}`)
-            //.setImage('https://imgur.com/TkalDv4')
+            //.setImage(`attachment://${tempFile}`)
+            .setImage('https://indify.co/widgets/live/weather/o2URfkUkMbQitvmOCjI0')
             .setDescription(`[View on Web](${lookupURL})`)
-            .setThumbnail(url = logo)
+            .setThumbnail('https://indify.co/widgets/live/weather/o2URfkUkMbQitvmOCjI0')
             .setTimestamp()
         
         

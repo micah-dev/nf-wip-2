@@ -18,29 +18,26 @@ module.exports = {
 
     callback: async ({ interaction }) => {
 
-        
+        // Send an initial reply within 3 seconds, and then edit that reply.
+        await interaction.deferReply({
+            ephemeral: false
+        })
+        await new Promise(resolve => setTimeout(resolve, 10000))
+
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
-        //await page.goto(lookupURL, {
-        //    waitUntil: 'networkidle2',
-        //    timeout: 30000,
-        //})
         await page.goto(lookupURL)
         const element = await page.$('#block-block-55 > div > div');
         await element.screenshot({ path: tempPath })
         page.close();
         
-        
-        //const attachment = new Discord.MessageAttachment(tempPath, tempFile);
+        // Construct the reply
         const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
-
         const embed = new Discord.MessageEmbed()
             .setColor('BLUE')
             .setTitle(`Parking Availability! 🚗`)
             .setImage(`attachment://${tempFile}`)
-            //.setThumbnail(url = logo)
             .setTimestamp()
-
         const button = new Discord.MessageActionRow()
             .addComponents(
                 new Discord.MessageButton()
@@ -50,22 +47,11 @@ module.exports = {
                 
             )
 
-
-        // Send a reply within 3 seconds, and then edit that reply.
-        await interaction.deferReply({
-            ephemeral: false
-        })
-        
-        await new Promise(resolve => setTimeout(resolve, 10000))
-
+        // Actually send the reply
         await interaction.editReply({
-            //ephemeral: true,
             embeds: [embed],
             files: [attachment],
             components: [button],
         })
-
-    
-
     }
 }
