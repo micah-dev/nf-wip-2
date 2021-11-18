@@ -16,7 +16,7 @@ module.exports = {
 
         const embed_reply = new MessageEmbed()
             .setColor('#008080')
-            .setTitle(`UNCC Bookmarks for your convenience! 🗺️ `)
+            .setTitle(`UNCC Bookmarks for your convenience 🗺️ `)
             .setDescription(`
                 [Canvas](https://uncc.instructure.com/)
                 [Niner Net](https://my.charlotte.edu/)
@@ -41,13 +41,13 @@ module.exports = {
                 [COVID Weekly Mitigation Testing](https://www.mobilevaccinationservices.com/unccweekly)
                 [More Links](https://www.uncc.edu/gateway/current-students)`)
             .setTimestamp()
-            .setThumbnail(url=logo)
+            //.setThumbnail(url=logo)
         
         
 
         // Send the response
         interaction?.reply({
-            ephemeral: true,
+            ephemeral: false,
             embeds: [embed_reply]
         })
 

@@ -29,7 +29,7 @@ module.exports = {
         const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
         const embed = new Discord.MessageEmbed()
             .setColor('GREEN')
-            .setTitle(`The Niner Times! 📰`)
+            .setTitle(`Hot off the press 📰`)
             .setImage(`attachment://${tempFile}`)
             .setTimestamp()
 

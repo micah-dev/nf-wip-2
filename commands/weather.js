@@ -36,10 +36,11 @@ module.exports = {
         const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
         const embed = new Discord.MessageEmbed()
             .setColor('#008080')
-            .setTitle(`This Weeks Weather Forecast! 🌤`)
+            .setTitle(`This Weeks Weather Forecast 🌤`)
             .setImage(`attachment://${tempFile}`)
             //.setThumbnail(url = logo)
             .setTimestamp()
+        
         const button = new Discord.MessageActionRow()
             .addComponents(
                 new Discord.MessageButton()

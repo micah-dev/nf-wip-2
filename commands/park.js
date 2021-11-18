@@ -25,16 +25,31 @@ module.exports = {
                 data += chunk;
             })
             res.on('end', () => {
+                
                 const embed = new Discord.MessageEmbed()
                     .setColor('BLUE')
-                    .setTitle(`Parking Availability`)
-                    .setDescription(`[View on Web](https://dineoncampus.com/unccharlotte/hours-of-operation)`)
+                    .setTitle(`Parking availability 🚗`)
+                    //.setDescription(`[View on Web](https://dineoncampus.com/unccharlotte/hours-of-operation)`)
+                    //.setThumbnail(url = logo)
                     .setTimestamp()
+                
                 data = JSON.parse(data);
                 for (loc of data) {
-                    embed.addField(loc.name, Math.round(loc.percentAvailable * 100) +"%")
+                    embed.addField(loc.name, "> " + Math.round(loc.percentAvailable * 100) + "%")
                 }
-                interaction.editReply({ embeds: [embed] })
+                
+                const button = new Discord.MessageActionRow()
+                    .addComponents(
+                        new Discord.MessageButton()
+                            .setURL(`${lookupURL}`)
+                            .setLabel('View on Web')
+                            .setStyle('LINK')
+                    )
+                
+                interaction.editReply({
+                    embeds: [embed],
+                    components: [button],
+                })
             })
         })
     }
