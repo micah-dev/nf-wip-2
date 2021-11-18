@@ -1,6 +1,6 @@
 // TODO: Migrate this to BUTTONS (maybe)
 
-const { MessageEmbed } = require("discord.js")
+const Discord = require('discord.js');
 const logo = 'https://media.discordapp.net/attachments/886347148386529291/894761080348368966/bot_logo-white_on_transparent-06.png?width=850&height=858'
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
 
     callback: async ({ interaction, channel }) => {
 
-        const embed_reply = new MessageEmbed()
+        const embed_reply = new Discord.MessageEmbed()
             .setColor('#008080')
             .setTitle(`UNCC Bookmarks for your convenience 🗺️ `)
             .setDescription(`
