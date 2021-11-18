@@ -8,6 +8,8 @@ module.exports = {
     category: 'Testing',
     description: 'Sends an embed.',
 
+    hidden: true,
+
     slash: true,
     testOnly: true,
 

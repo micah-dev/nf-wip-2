@@ -5,6 +5,8 @@ module.exports = {
     category: 'Testing',
     description: 'Sends a button.',
 
+    hidden: true,
+
     slash: true,
     testOnly: true,
 

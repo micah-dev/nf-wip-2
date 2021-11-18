@@ -68,7 +68,7 @@ module.exports = {
                 polyline = body.routes[0].overview_polyline.points
                 staticImageQueryParams = polyline + staticImageStyleQueryParams + "&maptype=hybrid&key=" + secrets.GOOGLE_API_KEY
                 response = staticImageApiBaseUrl + staticImageQueryParams
-                console.log(response)
+                //console.log(response)
 
                 const embed = new Discord.MessageEmbed()
                     .setColor('RED')
