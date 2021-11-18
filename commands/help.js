@@ -68,7 +68,7 @@ module.exports = {
                 { name: '/help', value: "Shows all available commands." },
             )
             .setTimestamp()
-            .setThumbnail(url = logo)
+            //.setThumbnail(url = logo)
         
 
         // Send the response

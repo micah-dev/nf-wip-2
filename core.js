@@ -33,7 +33,7 @@ client.on('ready', async () => {
         },
 
         disabledDefaultCommands: [
-            'help',
+            //'help',
             'command',
             'language',
             'prefix',

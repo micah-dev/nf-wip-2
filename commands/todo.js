@@ -16,13 +16,28 @@ function listTodos(member, interaction, cmd_name, cmd_data) {
 
 
     // Testing
-    const embed = new Discord.MessageEmbed()
+    const todolist_embed = new Discord.MessageEmbed()
         .setColor('GREEN')
-        .setTitle(`todo -list`)
+        .setTitle(`${member.nickname}\'s Todo List:`)
+
+    const todo_embed_sample_1 = new Discord.MessageEmbed()
+        .setColor('ORANGE')
+        .setTitle("Make money")
+        .addField("DUE:", '> ' + "11/21/2021" + ' at ' + "11:30 PM")
+
+    const todo_embed_sample_2 = new Discord.MessageEmbed()
+        .setColor('ORANGE')
+        .setTitle("Make more money")
+        .addField("DUE:", '> ' + "11/22/2021" + ' at ' + "10:30 PM")
+
+    const todo_embed_sample_3 = new Discord.MessageEmbed()
+        .setColor('ORANGE')
+        .setTitle("Make even moremoney")
+        .addField("DUE:", '> ' + "11/23/2021" + ' at ' + "9:30 PM")
 
     interaction?.reply({
         ephemeral: false,
-        embeds: [embed]
+        embeds: [todolist_embed, todo_embed_sample_1, todo_embed_sample_2, todo_embed_sample_3]
     })
 }
 
@@ -46,13 +61,18 @@ function newTodo(member, interaction, cmd_name, cmd_data) {
 
 
     // Testing
-    const embed = new Discord.MessageEmbed()
+    const success_embed = new Discord.MessageEmbed()
         .setColor('GREEN')
-        .setTitle(`todo -new`)
+        .setTitle('Todo added succesfully! ☑️')
+
+    const todo_embed = new Discord.MessageEmbed()
+        .setColor('ORANGE')
+        .setTitle(`${todo_name}`)
+        .addField("DUE:", '> ' + todo_due_date + ' at ' + todo_due_time)
 
     interaction?.reply({
         ephemeral: false,
-        embeds: [embed]
+        embeds: [success_embed, todo_embed]
     })
 }
 
@@ -91,15 +111,15 @@ function clearTodos(member, interaction, cmd_name, cmd_data) {
     console.log("user_id: ", user_id)
     console.log("user_name: ", user_name)
 
-    
+
     // Testing
-    const embed = new Discord.MessageEmbed()
-        .setColor('GREEN')
-        .setTitle(`todo -clear`)
+    const success_embed = new Discord.MessageEmbed()
+        .setColor('RED')
+        .setTitle('All Todos deleted succesfully! ❎')
 
     interaction?.reply({
         ephemeral: false,
-        embeds: [embed]
+        embeds: [sucess_embed]
     })
 }
 
