@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-const puppeteer = require('puppeteer');
+const Discord = require('discord.js')
+const puppeteer = require('puppeteer')
 
 const tempFile = `weather.png`
 const tempPath = `./commands/temp/${tempFile}`
@@ -12,7 +12,7 @@ const https = require("https");
 
 module.exports = {
     name: 'walk',
-    category: 'Testing',
+    category: 'Sprint 2',
     description: 'Shows path between two buildings.',
     guildOnly: true,
 
@@ -23,7 +23,7 @@ module.exports = {
     expectedArgs: '<origin> <destination>',
     minArgs: 2,
     maxArgs: 2,
-    syntaxError: 'Incorrect usage! Please use "{PREFIX}add {ARGUMENTS}"',
+    syntaxError: 'Incorrect usage! Please use "/walk origin destination"',
 
 
     callback: async ({ interaction, args }) => {

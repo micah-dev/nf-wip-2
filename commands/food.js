@@ -10,7 +10,7 @@ const logo = 'https://media.discordapp.net/attachments/886347148386529291/894761
 
 module.exports = {
     name: 'food',
-    category: 'Testing',
+    category: 'Sprint 2',
     description: 'Shows UNCC on-campus dining options.',
     guildOnly: true,
     slash: true,

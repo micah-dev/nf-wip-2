@@ -10,7 +10,7 @@ const logo = 'https://media.discordapp.net/attachments/886347148386529291/894761
 
 module.exports = {
     name: 'park',
-    category: 'Testing',
+    category: 'Sprint 2',
     description: 'Shows UNCC parking lot capacity.',
     guildOnly: true,
 
