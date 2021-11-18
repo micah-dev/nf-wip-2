@@ -21,7 +21,7 @@ module.exports = {
             //.setDescription(`[View on Web](${lookupURL})`)
             
             .setTitle(`Clear throughout the day. 🌘`)
-
+        
             .addField('Today:', '> 51, Clear\n> Feels like: 51\n> Low: 31\n> High: 69\n> Chance of rain: 0%\n')
 
             .addField('Sunday:', "> lo: 38  hi: 73", inline=true)

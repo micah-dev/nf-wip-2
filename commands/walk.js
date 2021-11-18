@@ -3,7 +3,6 @@ module.exports = {
     name: 'walk',
     category: 'Testing',
     description: 'Shows path between two buildings.',
-    
 
     slash: 'both',
     testOnly: true,

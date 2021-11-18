@@ -1,4 +1,6 @@
 .env
 node_modules/
 secrets.json
-commands/temp/
+
+commands/temp/*
+!commands/temp/.gitkeep

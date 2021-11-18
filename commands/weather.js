@@ -56,14 +56,6 @@ module.exports = {
         // respond to slash commands in 3 seconds,
         // thus, we must either defer a reply and
         // then edit it, or reply and then edit it.
-        
-        //interaction.reply({
-        //    ephemeral: true,
-        //    embeds: [embed_reply],
-        //    files: [attachment]
-        //})
-
-        
 
         await interaction.deferReply({
             ephemeral: false
