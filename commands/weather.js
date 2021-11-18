@@ -5,7 +5,7 @@ const tempFile = `weather.png`
 const tempPath = `./commands/temp/${tempFile}`
 const lookupURL = 'https://www.google.com/search?q=UNCC+weather'
 const logo = 'https://media.discordapp.net/attachments/886347148386529291/894761080348368966/bot_logo-white_on_transparent-06.png?width=850&height=858'
-
+//https://weatherstreet.com/weather-forecast/Unc-Charlotte-NC-28223.htm
 
 module.exports = {
     name: 'weather',

@@ -7,10 +7,8 @@ const secrets = require('./secrets.json')
 const mongoose = require('mongoose')
 const testSchema = require('./test-schema')
 
-
-
 const client = new DiscordJS.Client({
-  // These intents are recommended for the built in help menu
+    // These intents are recommended for the built in help menu
     intents: [
         Intents.FLAGS.GUILDS,
         Intents.FLAGS.GUILD_MESSAGES,
@@ -18,12 +16,7 @@ const client = new DiscordJS.Client({
     ],
 })
 
-
-
 client.on('ready', async () => {
-    
-
-
     new WOKCommands(client, {
         // The name of the local folder for your command files
         commandsDir: path.join(__dirname, 'commands'),
@@ -35,17 +28,13 @@ client.on('ready', async () => {
             keepAlive: true
         }
     })
-
     // need to remove this
     setTimeout(async () => {
         await new testSchema({
             message: 'hello world!!',
         }).save()
     }, 1000)
-
-    
 })
-
 
 
 client.login(secrets.discord_token)

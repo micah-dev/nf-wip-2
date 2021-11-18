@@ -18,23 +18,19 @@ module.exports = {
 
     callback: async ({ interaction }) => {
 
-        
+
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
         await page.goto(lookupURL)
         const element = await page.$('#tncms-block-786297')
         await element.screenshot({ path: tempPath })
         page.close();
-        
-        
-        //const attachment = new Discord.MessageAttachment(tempPath, tempFile);
-        const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
 
+        const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
         const embed = new Discord.MessageEmbed()
             .setColor('GREEN')
             .setTitle(`The Niner Times! 📰`)
             .setImage(`attachment://${tempFile}`)
-            //.setThumbnail(url = logo)
             .setTimestamp()
 
         const button = new Discord.MessageActionRow()
@@ -43,17 +39,9 @@ module.exports = {
                     .setURL(`${lookupURL}`)
                     .setLabel('View on Web')
                     .setStyle('LINK')
-                
             )
 
-
-        // Send a reply within 3 seconds, and then edit that reply.
-        await interaction.deferReply({
-            ephemeral: false
-        })
-        
-        await new Promise(resolve => setTimeout(resolve, 5000))
-
+        await interaction.deferReply({ ephemeral: false })
         await interaction.editReply({
             //ephemeral: true,
             embeds: [embed],
@@ -61,7 +49,7 @@ module.exports = {
             components: [button],
         })
 
-    
+
 
     }
 }
