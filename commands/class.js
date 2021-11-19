@@ -27,17 +27,50 @@ async function listClasses(member, interaction, cmd_name, cmd_data, db) {
 
     const counts = await db['Classes'].countDocuments({})
     const the_classes = await db['Classes'].find({ user: user_id })
-    console.log("the_classes", the_classes)
+    //console.log("the_classes", the_classes)
+
+    console.log(typeof the_classes);
+
+    console.log(counts)
+
+    var obj = the_classes
+
+    console.log(typeof obj)
 
     
-    if (await counts === 0 ) {
-        // dont find
-        console.log("counts: ", counts)
-    } else {
-        the_classes.each(doc => {
-            console.log(doc)
-        })
+
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)){
+            var value = obj[key]
+
+            console.log("-----------")
+            console.log(value.name)
+            console.log(value.daysOfWeek)
+            console.log(value.startTime)
+            console.log(value.endTime)
+
+
+
+            const class_embed_sample_1 = new Discord.MessageEmbed()
+                .setColor('BLUE')
+                .setTitle(`${value.name}`)
+                .addField("MEETING TIMES:", '> ' + `${daysOfWeek}` + ' from ' + `` + " to 1:10 PM")
+
+
+
+            
+        }
     }
+
+    
+    // if (await counts === 0 ) {
+    //     // dont find
+    //     console.log("counts: ", counts)
+    // } else {
+    //     the_classes.each(doc => {
+    //         console.log(doc)
+    //     })
+    // }
 
 
     // Testing
@@ -269,11 +302,11 @@ async function clearClasses(member, interaction, cmd_name, cmd_data, db) {
             // await new Promise(resolve => setTimeout(resolve, 5000))
 
             console.log(instance.isDBConnected())
-            console.log(instance.mongoConnection.models)
+            //console.log(instance.mongoConnection.models)
 
             db = instance.mongoConnection.models
 
-            console.log(instance.mongoConnection.models)
+            //console.log(instance.mongoConnection.models)
 
 
             
