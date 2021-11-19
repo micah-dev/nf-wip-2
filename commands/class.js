@@ -17,86 +17,33 @@ const schema = require('../schema')
 async function listClasses(member, interaction, cmd_name, cmd_data, db) {
     user_id = member.id
     user_name = member.nickname
-    // Debug
-    console.log("cmd_name: ", cmd_name)
-    console.log("user_id: ", user_id)
-    console.log("user_name: ", user_name)
 
+    let counts = await db.countDocuments()
 
     // Get all todo items for user
+    let classEmbeds = []
+    let classList = await db.find({ user: user_id })
 
-    const counts = await db['Classes'].countDocuments({})
-    const the_classes = await db['Classes'].find({ user: user_id })
-    //console.log("the_classes", the_classes)
+    let embed = new Discord.MessageEmbed()
+        .setColor("GREEN")
+        .setTitle(`${user_name}'s Class Schedule: 🎒'`)
+        .setDescription(`${counts} classes.`)
+    classEmbeds.push(embed)
 
-    console.log(typeof the_classes);
-
-    console.log(counts)
-
-    var obj = the_classes
-
-    console.log(typeof obj)
-
-    
-
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key)){
-            var value = obj[key]
-
-            console.log("-----------")
-            console.log(value.name)
-            console.log(value.daysOfWeek)
-            console.log(value.startTime)
-            console.log(value.endTime)
-
-
-
-            const class_embed_sample_1 = new Discord.MessageEmbed()
-                .setColor('BLUE')
-                .setTitle(`${value.name}`)
-                .addField("MEETING TIMES:", '> ' + `${daysOfWeek}` + ' from ' + `` + " to 1:10 PM")
-
-
-
-            
-        }
-    }
-
-    
-    // if (await counts === 0 ) {
-    //     // dont find
-    //     console.log("counts: ", counts)
-    // } else {
-    //     the_classes.each(doc => {
-    //         console.log(doc)
-    //     })
-    // }
-
-
-    // Testing
-    const schedule_embed = new Discord.MessageEmbed()
-        .setColor('GREEN')
-        .setTitle(`${member.nickname}\'s Class Schedule:`)
-
-    const class_embed_sample_1 = new Discord.MessageEmbed()
-        .setColor('BLUE')
-        .setTitle("Machine Learning")
-        .addField("INFO:", '> ' + "M W F" + ' from ' + "10:10 AM" + " to 1:10 PM")
-
-    const class_embed_sample_2 = new Discord.MessageEmbed()
-        .setColor('BLUE')
-        .setTitle("Computer Vision")
-        .addField("INFO:", '> ' + "M W F" + ' from ' + "10:10 AM" + " to 1:10 PM")
-
-    const class_embed_sample_3 = new Discord.MessageEmbed()
-        .setColor('BLUE')
-        .setTitle("Mobile Robotics")
-        .addField("INFO:", '> ' + "M W F" + ' from ' + "10:10 AM" + " to 1:10 PM")
-
+    classList.forEach(doc => {
+        classEmbeds.push(new Discord.MessageEmbed()
+            .setColor('BLUE')
+            .setTitle(doc.name)
+            .setDescription(`Active ${doc.daysOfWeek} from ${doc.startTime} to ${doc.endTime}`)
+        )
+    })
     interaction?.reply({
         ephemeral: false,
-        embeds: [schedule_embed, class_embed_sample_1, class_embed_sample_2, class_embed_sample_3]
+        embeds: classEmbeds
     })
+    
+
+
 }
 
 // For the given user:
@@ -109,30 +56,6 @@ async function newClass(member, interaction, cmd_name, cmd_data, db) {
     class_days_active = cmd_data[0].options[1].value
     class_start_time = cmd_data[0].options[2].value
     class_end_time = cmd_data[0].options[3].value
-    // Debug
-    console.log("cmd_name: ", cmd_name)
-    console.log("user_id: ", user_id)
-    console.log("user_name: ", user_name)
-    // Subcommand Debug
-    console.log("class_name: ", class_name)
-    console.log("class_days_active: ", class_days_active)
-    console.log("class_start_time: ", class_start_time)
-    console.log("class_end_time: ", class_end_time)
-
-
-    // Make a new class obj
-
-    new_class = new schema.classes({
-        user: user_id,
-        name: class_name,
-        daysOfWeek: class_days_active,
-        startTime: class_start_time,
-        endTime: class_end_time,
-    })
-
-    //console.log(new_class)
-
-    //console.log(db)
 
     new schema.classes({
         user: user_id,
@@ -147,15 +70,6 @@ async function newClass(member, interaction, cmd_name, cmd_data, db) {
         .setColor('GREEN')
         .setTitle('Class added succesfully! ☑️')
         .addField(`${class_name}`, `> Active ${class_days_active}, ${class_start_time} - ${class_end_time}`)
-
-    // const class_embed = new Discord.MessageEmbed()
-    //     .setColor('ORANGE')
-    //     .setTitle(`${class_name}`, `> Active ${class_days_active}, ${class_start_time} - ${class_end_time}`)
-    //     //.addField("DUE:", '> ' + todo_due_date + ' at ' + todo_due_time)
-    //     //.setTitle("Computer Vision")
-    //     .addField("Days Active", '> ' + class_days_active)
-    //     .addField("Start Time", '> ' + class_start_time)
-    //     .addField("End Time", '> ' + class_end_time)
 
     interaction?.reply({
         ephemeral: false,
@@ -178,17 +92,39 @@ async function deleteClass(member, interaction, cmd_name, cmd_data, db) {
 
 
     // Delete a Document
-    //const deleted_class = await schema.classes.deleteOne({ name: "class_name", })
+    let counts = await db.countDocuments()
 
+    // Get all todo items for user
+    let classEmbeds = []
+    let classList = await db.find({ user: user_id })
+    let buttons = []
 
-    // Testing
-    const embed = new Discord.MessageEmbed()
-        .setColor('GREEN')
-        .setTitle(`class -delete`)
+    let embed = new Discord.MessageEmbed()
+        .setColor("GREEN")
+        .setTitle(`${user_name}'s Class Schedule: 🎒'`)
+        .setDescription(`${counts} classes.`)
+    classEmbeds.push(embed)
 
+    classList.forEach(doc => {
+        classEmbeds.push(new Discord.MessageEmbed()
+            .setColor('BLUE')
+            .setTitle(doc.name)
+            .setDescription(`Active ${doc.daysOfWeek} from ${doc.startTime} to ${doc.endTime}`)
+        )
+        buttons.push(new Discord.MessageActionRow()
+        .addComponents(
+            new Discord.MessageButton()
+                .setCustomId(`${doc.name}`)
+                .setEmoji('❌')
+                .setLabel('Delete?')
+                .setStyle('DANGER')
+        )
+        )
+    })
     interaction?.reply({
         ephemeral: false,
-        embeds: [embed]
+        embeds: classEmbeds,
+        components: buttons,
     })
 }
 
@@ -302,11 +238,8 @@ async function clearClasses(member, interaction, cmd_name, cmd_data, db) {
             // await new Promise(resolve => setTimeout(resolve, 5000))
 
             console.log(instance.isDBConnected())
-            //console.log(instance.mongoConnection.models)
-
-            db = instance.mongoConnection.models
-
-            //console.log(instance.mongoConnection.models)
+            
+            let db = instance.mongoConnection.models['Classes']
 
 
             
