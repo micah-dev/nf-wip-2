@@ -8,19 +8,36 @@
 const Discord = require('discord.js')
 const secrets = require('../secrets.json')
 
-const todo = require('../schema')
+const schema = require('../schema')
 
 // ---------- TODO LOGIC
 
 // For the given user:
     // List all todos as individual embeds.
-function listClasses(member, interaction, cmd_name, cmd_data) {
+async function listClasses(member, interaction, cmd_name, cmd_data, db) {
     user_id = member.id
     user_name = member.nickname
     // Debug
     console.log("cmd_name: ", cmd_name)
     console.log("user_id: ", user_id)
     console.log("user_name: ", user_name)
+
+
+    // Get all todo items for user
+
+    const counts = await db['Classes'].countDocuments({})
+    const the_classes = await db['Classes'].find({ user: user_id })
+    console.log("the_classes", the_classes)
+
+    
+    if (await counts === 0 ) {
+        // dont find
+        console.log("counts: ", counts)
+    } else {
+        the_classes.each(doc => {
+            console.log(doc)
+        })
+    }
 
 
     // Testing
@@ -31,23 +48,17 @@ function listClasses(member, interaction, cmd_name, cmd_data) {
     const class_embed_sample_1 = new Discord.MessageEmbed()
         .setColor('BLUE')
         .setTitle("Machine Learning")
-        .addField("Days Active", "> M")
-        .addField("Start Time", "> 10:10 AM")
-        .addField("End Time", "> 1:10 PM")
+        .addField("INFO:", '> ' + "M W F" + ' from ' + "10:10 AM" + " to 1:10 PM")
 
     const class_embed_sample_2 = new Discord.MessageEmbed()
         .setColor('BLUE')
         .setTitle("Computer Vision")
-        .addField("Days Active", "> M W")
-        .addField("Start Time", "> 2:30 PM")
-        .addField("End Time", "> 3:45 PM")
+        .addField("INFO:", '> ' + "M W F" + ' from ' + "10:10 AM" + " to 1:10 PM")
 
     const class_embed_sample_3 = new Discord.MessageEmbed()
         .setColor('BLUE')
         .setTitle("Mobile Robotics")
-        .addField("Days Active", "> Th")
-        .addField("Start Time", "> 8:30 AM")
-        .addField("End Time", "> 11:30 AM")
+        .addField("INFO:", '> ' + "M W F" + ' from ' + "10:10 AM" + " to 1:10 PM")
 
     interaction?.reply({
         ephemeral: false,
@@ -58,7 +69,7 @@ function listClasses(member, interaction, cmd_name, cmd_data) {
 // For the given user:
     // Create a new todo called <todo_name> at <todo_due_date> at <todo_due_time> with
     // randomly generated <todo_id>
-function newClass(member, interaction, cmd_name, cmd_data) {
+async function newClass(member, interaction, cmd_name, cmd_data, db) {
     user_id = member.id
     user_name = member.nickname
     class_name = cmd_data[0].options[0].value
@@ -76,29 +87,52 @@ function newClass(member, interaction, cmd_name, cmd_data) {
     console.log("class_end_time: ", class_end_time)
 
 
+    // Make a new class obj
+
+    new_class = new schema.classes({
+        user: user_id,
+        name: class_name,
+        daysOfWeek: class_days_active,
+        startTime: class_start_time,
+        endTime: class_end_time,
+    })
+
+    //console.log(new_class)
+
+    //console.log(db)
+
+    new schema.classes({
+        user: user_id,
+        name: class_name,
+        daysOfWeek: class_days_active,
+        startTime: class_start_time,
+        endTime: class_end_time,
+    }).save()
+
     // Testing
     const success_embed = new Discord.MessageEmbed()
         .setColor('GREEN')
         .setTitle('Class added succesfully! ☑️')
+        .addField(`${class_name}`, `> Active ${class_days_active}, ${class_start_time} - ${class_end_time}`)
 
-    const class_embed = new Discord.MessageEmbed()
-        .setColor('ORANGE')
-        .setTitle(`${class_name}`)
-        //.addField("DUE:", '> ' + todo_due_date + ' at ' + todo_due_time)
-        //.setTitle("Computer Vision")
-        .addField("Days Active", '> ' + class_days_active)
-        .addField("Start Time", '> ' + class_start_time)
-        .addField("End Time", '> ' + class_end_time)
+    // const class_embed = new Discord.MessageEmbed()
+    //     .setColor('ORANGE')
+    //     .setTitle(`${class_name}`, `> Active ${class_days_active}, ${class_start_time} - ${class_end_time}`)
+    //     //.addField("DUE:", '> ' + todo_due_date + ' at ' + todo_due_time)
+    //     //.setTitle("Computer Vision")
+    //     .addField("Days Active", '> ' + class_days_active)
+    //     .addField("Start Time", '> ' + class_start_time)
+    //     .addField("End Time", '> ' + class_end_time)
 
     interaction?.reply({
         ephemeral: false,
-        embeds: [success_embed, class_embed]
+        embeds: [success_embed]
     })
 }
 
 // For the given user:
     // Delete a todo using <todo_id>
-function deleteClass(member, interaction, cmd_name, cmd_data) {
+async function deleteClass(member, interaction, cmd_name, cmd_data, db) {
     user_id = member.id
     user_name = member.nickname
     class_id = cmd_data[0].options[0].value
@@ -108,6 +142,10 @@ function deleteClass(member, interaction, cmd_name, cmd_data) {
     console.log("user_name: ", user_name)
     // Subcommand Debug
     console.log("class_id: ", class_id)
+
+
+    // Delete a Document
+    //const deleted_class = await schema.classes.deleteOne({ name: "class_name", })
 
 
     // Testing
@@ -123,7 +161,7 @@ function deleteClass(member, interaction, cmd_name, cmd_data) {
 
 // For the given user:
     // Delete all todos.
-function clearClasses(member, interaction, cmd_name, cmd_data) {
+async function clearClasses(member, interaction, cmd_name, cmd_data, db) {
     user_id = member.id
     user_name = member.nickname
     // Debug
@@ -220,7 +258,7 @@ function clearClasses(member, interaction, cmd_name, cmd_data) {
         ],
         
         
-        callback: async ({ interaction, member, args }) => {
+        callback: async ({ interaction, member, args, instance }) => {
             
             
             
@@ -229,6 +267,13 @@ function clearClasses(member, interaction, cmd_name, cmd_data) {
             //     ephemeral: false
             // })
             // await new Promise(resolve => setTimeout(resolve, 5000))
+
+            console.log(instance.isDBConnected())
+            console.log(instance.mongoConnection.models)
+
+            db = instance.mongoConnection.models
+
+            console.log(instance.mongoConnection.models)
 
 
             
@@ -239,16 +284,16 @@ function clearClasses(member, interaction, cmd_name, cmd_data) {
                 cmd_data = interaction.options.data
 
                 if (interaction.options.getSubcommand() === '-list') {
-                    listClasses(member, interaction, cmd_name, cmd_data)
+                    listClasses(member, interaction, cmd_name, cmd_data, db)
                 }
                 if (interaction.options.getSubcommand() === '-new') {
-                    newClass(member, interaction, cmd_name, cmd_data)
+                    newClass(member, interaction, cmd_name, cmd_data, db)
                 }
                 if (interaction.options.getSubcommand() === '-delete') {
-                    deleteClass(member, interaction, cmd_name, cmd_data)
+                    deleteClass(member, interaction, cmd_name, cmd_data, db)
                 }
                 if (interaction.options.getSubcommand() === '-clear') {
-                    clearClasses(member, interaction, cmd_name, cmd_data)
+                    clearClasses(member, interaction, cmd_name, cmd_data, db)
                 }
             }
 
