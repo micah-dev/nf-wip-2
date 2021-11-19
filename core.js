@@ -21,15 +21,12 @@ client.on('ready', async () => {
         // What guilds your slash commands will be created in
         testServers: ['529033279421153301', '880879298536431676'],
         botOwners: ['318257467446525952', '508066183598047232'],
-
         // If interactions should only be shown to the one user.
         //ephemeral: true,
-
         mongoUri: secrets.mongo_uri,
         dbOptions: {
             keepAlive: true
         },
-
         disabledDefaultCommands: [
             'command',
             'language',
@@ -37,9 +34,7 @@ client.on('ready', async () => {
             'requiredrole',
             'channelonly'
         ],
-
         debug: true,
-
         // How many seconds to keep error messages before deleting them.
         // -1 is default and means do not delete.
         delErrMsgCooldown: 3,

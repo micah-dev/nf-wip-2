@@ -2,91 +2,53 @@
 const Discord = require('discord.js')
 const secrets = require('../secrets.json')
 const schema = require('../schema')
-// ---------- TODO LOGIC
 
-// For the given user:
-// List all todos as individual embeds.
-function listTodos(member, interaction, cmd_name, cmd_data) {
+
+async function listTodos(member, interaction, cmd_name, cmd_data, collection) {
     user_id = member.id
     user_name = member.nickname
-    // Debug
-    console.log("cmd_name: ", cmd_name)
-    console.log("user_id: ", user_id)
-    console.log("user_name: ", user_name)
+    let todoEmbeds = []
+    let todoList = await collection.find({ user: user_id })
 
-
-    // Testing
-    const todolist_embed = new Discord.MessageEmbed()
-        .setColor('GREEN')
-        .setTitle(`${member.nickname}\'s Todo List:`)
-
-    const todo_embed_sample_1 = new Discord.MessageEmbed()
-        .setColor('ORANGE')
-        .setTitle("Make money")
-        .addField("DUE:", '> ' + "11/21/2021" + ' at ' + "11:30 PM")
-
-    const todo_embed_sample_2 = new Discord.MessageEmbed()
-        .setColor('ORANGE')
-        .setTitle("Make more money")
-        .addField("DUE:", '> ' + "11/22/2021" + ' at ' + "10:30 PM")
-
-    const todo_embed_sample_3 = new Discord.MessageEmbed()
-        .setColor('ORANGE')
-        .setTitle("Make even moremoney")
-        .addField("DUE:", '> ' + "11/23/2021" + ' at ' + "9:30 PM")
-
+    todoList.forEach(doc => {
+        todoEmbeds.push(new Discord.MessageEmbed()
+            .setColor('ORANGE')
+            .setTitle(doc.name)
+            .setDescription(`${doc.date} @ ${doc.time}`)
+        )
+    })
     interaction?.reply({
         ephemeral: false,
-        embeds: [todolist_embed, todo_embed_sample_1, todo_embed_sample_2, todo_embed_sample_3]
+        embeds: todoEmbeds
     })
 }
 
 // For the given user:
 // Create a new todo called <todo_name> at <todo_due_date> at <todo_due_time> with
 // randomly generated <todo_id>
-function newTodo(member, interaction, cmd_name, cmd_data) {
-    user_id = member.id
-    user_name = member.nickname
+async function newTodo(member, interaction, cmd_name, cmd_data, collection) {
     todo_name = cmd_data[0].options[0].value
     todo_due_date = cmd_data[0].options[1].value
     todo_due_time = cmd_data[0].options[2].value
-    // Debug
-    console.log("cmd_name: ", cmd_name)
-    console.log("user_id: ", user_id)
-    console.log("user_name: ", user_name)
-    // Subcommand Debug
-    console.log("todo_name: ", todo_name)
-    console.log("todo_due_date: ", todo_due_date)
-    console.log("todo_due_time: ", todo_due_time)
 
     new schema.todo({
-        user: user_id,
+        user: member.id,
         name: todo_name,
         date: todo_due_date,
         time: todo_due_time
     }).save()
 
-
-
     // Testing
     const success_embed = new Discord.MessageEmbed()
         .setColor('GREEN')
         .setTitle('Todo added succesfully! ☑️')
-
-    const todo_embed = new Discord.MessageEmbed()
-        .setColor('ORANGE')
-        .setTitle(`${todo_name}`)
-        .addField("DUE:", '> ' + todo_due_date + ' at ' + todo_due_time)
-
+        .setDescription(`${todo_name} @ ${todo_due_date} by ${todo_due_time}`)
     interaction?.reply({
         ephemeral: false,
-        embeds: [success_embed, todo_embed]
+        embeds: [success_embed]
     })
 }
-
-// For the given user:
-// Delete a todo using <todo_id>
-function deleteTodo(member, interaction, cmd_name, cmd_data) {
+async function deleteTodo(member, interaction, cmd_name, cmd_data, collection) {
     user_id = member.id
     user_name = member.nickname
     todo_id = cmd_data[0].options[0].value
@@ -108,10 +70,7 @@ function deleteTodo(member, interaction, cmd_name, cmd_data) {
         embeds: [embed]
     })
 }
-
-// For the given user:
-// Delete all todos.
-function clearTodos(member, interaction, cmd_name, cmd_data) {
+async function clearTodos(member, interaction, cmd_name, cmd_data, collection) {
     user_id = member.id
     user_name = member.nickname
     // Debug
@@ -196,26 +155,26 @@ module.exports = {
         }
     ],
 
-    callback: async ({ interaction, member, args }) => {
+    callback: async ({ interaction, member, args, instance }) => {
+        if (!(interaction.commandName === 'todo')) return
+        let todoCollection = instance.mongoConnection.models['Todo']
+        // Will exist for all subcommands
+        cmd_name = interaction.options.getSubcommand()
+        cmd_data = interaction.options.data
 
-        if (interaction.commandName === 'todo') {
-
-            // Will exist for all subcommands
-            cmd_name = interaction.options.getSubcommand()
-            cmd_data = interaction.options.data
-
-            if (interaction.options.getSubcommand() === '-list') {
-                listTodos(member, interaction, cmd_name, cmd_data)
-            }
-            if (interaction.options.getSubcommand() === '-new') {
-                newTodo(member, interaction, cmd_name, cmd_data)
-            }
-            if (interaction.options.getSubcommand() === '-delete') {
-                deleteTodo(member, interaction, cmd_name, cmd_data)
-            }
-            if (interaction.options.getSubcommand() === '-clear') {
-                clearTodos(member, interaction, cmd_name, cmd_data)
-            }
+        switch (interaction.options.getSubcommand()) {
+            case '-list':
+                listTodos(member, interaction, cmd_name, cmd_data, todoCollection)
+                break;
+            case '-new':
+                newTodo(member, interaction, cmd_name, cmd_data, todoCollection)
+                break;
+            case '-delete':
+                deleteTodo(member, interaction, cmd_name, cmd_data, todoCollection)
+                break;
+            case '-clear':
+                clearTodos(member, interaction, cmd_name, cmd_data, todoCollection)
+                break;
         }
     }
 }
