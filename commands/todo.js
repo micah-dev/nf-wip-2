@@ -5,14 +5,11 @@ const schema = require('../schema')
 
 
 async function listTodos(member, interaction, cmd_name, cmd_data, collection) {
-    if (await collection.countDocuments() == 0){
-        interaction?.reply("You have nothing to do!")
-        return
-    }
     user_id = member.id
     user_name = member.nickname
     let todoEmbeds = []
     let todoList = await collection.find({ user: user_id })
+
     todoList.forEach(doc => {
         todoEmbeds.push(new Discord.MessageEmbed()
             .setColor('ORANGE')
@@ -54,14 +51,19 @@ async function newTodo(member, interaction, cmd_name, cmd_data, collection) {
 async function deleteTodo(member, interaction, cmd_name, cmd_data, collection) {
     user_id = member.id
     user_name = member.nickname
-    todo_name = cmd_data[0].options[0].value
+    todo_id = cmd_data[0].options[0].value
+    // Debug
+    console.log("cmd_name: ", cmd_name)
+    console.log("user_id: ", user_id)
+    console.log("user_name: ", user_name)
+    // Subcommand Debug
+    console.log("todo_id: ", todo_id)
 
-    await collection.deleteOne({ user: user_id, name: todo_name })
 
     // Testing
     const embed = new Discord.MessageEmbed()
         .setColor('GREEN')
-        .setTitle(`Deleted ${todo_name}`)
+        .setTitle(`todo -delete`)
 
     interaction?.reply({
         ephemeral: false,
@@ -71,17 +73,20 @@ async function deleteTodo(member, interaction, cmd_name, cmd_data, collection) {
 async function clearTodos(member, interaction, cmd_name, cmd_data, collection) {
     user_id = member.id
     user_name = member.nickname
+    // Debug
+    console.log("cmd_name: ", cmd_name)
+    console.log("user_id: ", user_id)
+    console.log("user_name: ", user_name)
 
-    await collection.deleteMany({ user: user_id})
 
     // Testing
-    const embed = new Discord.MessageEmbed()
-        .setColor('GREEN')
-        .setTitle(`Cleared the todo list!`)
+    const success_embed = new Discord.MessageEmbed()
+        .setColor('RED')
+        .setTitle('All Todos deleted succesfully! ❎')
 
     interaction?.reply({
         ephemeral: false,
-        embeds: [embed]
+        embeds: [sucess_embed]
     })
 }
 
@@ -135,9 +140,9 @@ module.exports = {
             type: 1,
             options: [
                 {
-                    name: 'name',
-                    description: 'The name of the todo item to be deleted.',
-                    type: 3,
+                    name: 'item_id',
+                    description: 'The id of the todo item to be deleted.',
+                    type: 4,
                     required: true,
                 }
             ]

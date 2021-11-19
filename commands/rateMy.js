@@ -24,14 +24,14 @@ module.exports = {
     syntaxError: 'Incorrect usage! Please use "/rate full name"',
 
     callback: async ({ interaction, args }) => {
-        let professorName = args[0].replace(" ", '%20')
-        let newURL = lookupURL.replace('NAME', professorName)
-
+        let professorName = args[0].replace('%20')
+        let newURL =  lookupURL.replace('NAME', professorName)
+        
         await interaction.deferReply({ ephemeral: false })
-        const browser = await puppeteer.launch({ headless: true })
+        const browser = await puppeteer.launch({ headless: false })
         const page = await browser.newPage()
         await page.goto(newURL)
-
+       
 
         let rating = await page.$eval('#root > div > div > div.SearchResultsPage__StyledSearchResultsPage-sc-1srop1v-0.kdXwyM > div.SearchResultsPage__SearchResultsWrapper-sc-1srop1v-1.gsOeEv > div:nth-child(2) > a > div > div.TeacherCard__NumRatingWrapper-syjs0d-2.joEEbw > div > div.CardNumRating__CardNumRatingNumber-sc-17t4b9u-2.kMhQxZ', el => el.innerText);
         let ratings = await page.$eval('#root > div > div > div.SearchResultsPage__StyledSearchResultsPage-sc-1srop1v-0.kdXwyM > div.SearchResultsPage__SearchResultsWrapper-sc-1srop1v-1.gsOeEv > div:nth-child(2) > a > div > div.TeacherCard__NumRatingWrapper-syjs0d-2.joEEbw > div > div.CardNumRating__CardNumRatingCount-sc-17t4b9u-3.jMRwbg', el => el.innerText);
@@ -41,26 +41,16 @@ module.exports = {
 
         const embed = new Discord.MessageEmbed()
             .setColor('#008080')
-            .setTitle(`RateMyProfessor: ${args[0]} 👨🏽‍🏫`)
+            .setTitle(`RateMyProfessor: ${args[0]} 🕋 `)
             .addField('Rating', `${rating} out of ${ratings} total reviews`)
             .addField('Department', `${department}`)
             .addField('Take Again:', `${takeAgain}`)
             .addField('Difficulty', `${difficulty}/5`)
             .setTimestamp()
-
-        const button = new Discord.MessageActionRow()
-            .addComponents(
-                new Discord.MessageButton()
-                    .setURL(`${newURL}`)
-                    .setLabel('View on Web')
-                    .setStyle('LINK')
-            )
-
-
+    
         // Actually send the reply
         await interaction.editReply({
             embeds: [embed],
-            components: [button],
         })
     }
 }
