@@ -28,8 +28,6 @@ module.exports = {
                 const embed = new Discord.MessageEmbed()
                     .setColor('RED')
                     .setTitle(`Hungry? 🍕`)
-                    //.setDescription(`[View on Web](https://dineoncampus.com/unccharlotte/hours-of-operation)`)
-                    //.setThumbnail(url = logo)
                     .setTimestamp()
 
                 data = JSON.parse(data);
