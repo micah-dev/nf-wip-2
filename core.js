@@ -56,8 +56,7 @@ client.on('ready', async () => {
             },
         ])
         .setDisplayName('NinerFlow')
-
 })
 
 
-client.login(secrets.discord_token)
+client.login(secrets.debug_token_001)

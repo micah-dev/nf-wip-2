@@ -10,7 +10,7 @@ const logo = 'https://media.discordapp.net/attachments/886347148386529291/894761
 module.exports = {
     name: 'news',
     category: 'Sprint 2',
-    description: 'Shows UNCC weekly weather forecast.',
+    description: 'Shows the front page of the NinerTimes',
     guildOnly: true,
 
     slash: true,
