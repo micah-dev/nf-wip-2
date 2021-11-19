@@ -4,8 +4,6 @@ const path = require('path')
 const { Intents } = DiscordJS
 require("dotenv").config()
 const secrets = require('./secrets.json')
-const mongoose = require('mongoose')
-const testSchema = require('./test-schema')
 
 const client = new DiscordJS.Client({
     // These intents are recommended for the built in help menu
@@ -33,7 +31,6 @@ client.on('ready', async () => {
         },
 
         disabledDefaultCommands: [
-            //'help',
             'command',
             'language',
             'prefix',
@@ -64,14 +61,6 @@ client.on('ready', async () => {
             },
         ])
         .setDisplayName('NinerFlow')
-
-
-    // need to remove this
-    setTimeout(async () => {
-        await new testSchema({
-            message: 'hello world!!',
-        }).save()
-    }, 1000)
 
 })
 

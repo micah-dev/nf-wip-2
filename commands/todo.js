@@ -1,11 +1,11 @@
 
 const Discord = require('discord.js')
 const secrets = require('../secrets.json')
-
+const todo = require('../schema')
 // ---------- TODO LOGIC
 
 // For the given user:
-    // List all todos as individual embeds.
+// List all todos as individual embeds.
 function listTodos(member, interaction, cmd_name, cmd_data) {
     user_id = member.id
     user_name = member.nickname
@@ -42,8 +42,8 @@ function listTodos(member, interaction, cmd_name, cmd_data) {
 }
 
 // For the given user:
-    // Create a new todo called <todo_name> at <todo_due_date> at <todo_due_time> with
-    // randomly generated <todo_id>
+// Create a new todo called <todo_name> at <todo_due_date> at <todo_due_time> with
+// randomly generated <todo_id>
 function newTodo(member, interaction, cmd_name, cmd_data) {
     user_id = member.id
     user_name = member.nickname
@@ -58,6 +58,14 @@ function newTodo(member, interaction, cmd_name, cmd_data) {
     console.log("todo_name: ", todo_name)
     console.log("todo_due_date: ", todo_due_date)
     console.log("todo_due_time: ", todo_due_time)
+
+    new todo({
+        user: user_id,
+        name: todo_name,
+        date: todo_due_date,
+        time: todo_due_time
+    }).save()
+
 
 
     // Testing
@@ -77,7 +85,7 @@ function newTodo(member, interaction, cmd_name, cmd_data) {
 }
 
 // For the given user:
-    // Delete a todo using <todo_id>
+// Delete a todo using <todo_id>
 function deleteTodo(member, interaction, cmd_name, cmd_data) {
     user_id = member.id
     user_name = member.nickname
@@ -102,7 +110,7 @@ function deleteTodo(member, interaction, cmd_name, cmd_data) {
 }
 
 // For the given user:
-    // Delete all todos.
+// Delete all todos.
 function clearTodos(member, interaction, cmd_name, cmd_data) {
     user_id = member.id
     user_name = member.nickname
@@ -123,113 +131,91 @@ function clearTodos(member, interaction, cmd_name, cmd_data) {
     })
 }
 
+module.exports = {
+    category: 'Sprint 3',
+    guildOnly: true,
+    slash: true,
+    testOnly: true,
 
-// ----------
-    
-    
-    module.exports = {
-        category: 'Sprint 3',
-        guildOnly: true,
-        slash: true,
-        testOnly: true,
-        
-        name: 'todo',
-        description: 'Create a todo list and get task reminders!',
-        type: 2,
+    name: 'todo',
+    description: 'Create a todo list and get task reminders!',
+    type: 2,
 
-        options: [
-            {
-                name: '-list',
-                description: 'Lists all of your todo items.',
-                //required: true,
-                type: 1,
-            },
-            {
-                name: '-new',
-                description: 'Creates a new todo item.',
-                //required: true,
-                type: 1,
-                options: [
-                    {
-                        name: 'name',
-                        description: 'the name',
-                        required: true,
-                        type: 3,
-                    },
-                    {
-                        name: 'due_date',
-                        description: 'date item is due',
-                        required: true,
-                        type: 3,
-                    },
-                    {
-                        name: 'due_time',
-                        description: 'time item is due',
-                        required: true,
-                        type: 3,
-                    }
-                ]
-            },
-            {
-                name: '-delete',
-                description: 'Deletes a todo item.',
-                //required: true,
-                type: 1,
-                options: [
-                    {
-                        name: 'item_id',
-                        description: 'The id of the todo item to be deleted.',
-                        type: 4,
-                        required: true,
-                    }
-                ]
-            },
-            {
-                name: '-clear',
-                description: 'Deletes ALL todo items.',
-                //required: true,
-                type: 1,
+    options: [
+        {
+            name: '-list',
+            description: 'Lists all of your todo items.',
+            //required: true,
+            type: 1,
+        },
+        {
+            name: '-new',
+            description: 'Creates a new todo item.',
+            //required: true,
+            type: 1,
+            options: [
+                {
+                    name: 'name',
+                    description: 'the name',
+                    required: true,
+                    type: 3,
+                },
+                {
+                    name: 'due_date',
+                    description: 'date item is due',
+                    required: true,
+                    type: 3,
+                },
+                {
+                    name: 'due_time',
+                    description: 'time item is due',
+                    required: true,
+                    type: 3,
+                }
+            ]
+        },
+        {
+            name: '-delete',
+            description: 'Deletes a todo item.',
+            //required: true,
+            type: 1,
+            options: [
+                {
+                    name: 'item_id',
+                    description: 'The id of the todo item to be deleted.',
+                    type: 4,
+                    required: true,
+                }
+            ]
+        },
+        {
+            name: '-clear',
+            description: 'Deletes ALL todo items.',
+            //required: true,
+            type: 1,
+        }
+    ],
+
+    callback: async ({ interaction, member, args }) => {
+
+        if (interaction.commandName === 'todo') {
+
+            // Will exist for all subcommands
+            cmd_name = interaction.options.getSubcommand()
+            cmd_data = interaction.options.data
+
+            if (interaction.options.getSubcommand() === '-list') {
+                listTodos(member, interaction, cmd_name, cmd_data)
             }
-        ],
-        
-        
-        callback: async ({ interaction, member, args }) => {
-            
-            
-            
-            // Send an initial reply within 3 seconds, and then edit that reply.
-            // await interaction.deferReply({
-            //     ephemeral: false
-            // })
-            // await new Promise(resolve => setTimeout(resolve, 5000))
-
-
-            
-            if (interaction.commandName === 'todo') {
-
-                // Will exist for all subcommands
-                cmd_name = interaction.options.getSubcommand()
-                cmd_data = interaction.options.data
-
-                if (interaction.options.getSubcommand() === '-list') {
-                    listTodos(member, interaction, cmd_name, cmd_data)
-                }
-                if (interaction.options.getSubcommand() === '-new') {
-                    newTodo(member, interaction, cmd_name, cmd_data)
-                }
-                if (interaction.options.getSubcommand() === '-delete') {
-                    deleteTodo(member, interaction, cmd_name, cmd_data)
-                }
-                if (interaction.options.getSubcommand() === '-clear') {
-                    clearTodos(member, interaction, cmd_name, cmd_data)
-                }
+            if (interaction.options.getSubcommand() === '-new') {
+                newTodo(member, interaction, cmd_name, cmd_data)
             }
-
-
-            
-        
-        
-        
-        
+            if (interaction.options.getSubcommand() === '-delete') {
+                deleteTodo(member, interaction, cmd_name, cmd_data)
+            }
+            if (interaction.options.getSubcommand() === '-clear') {
+                clearTodos(member, interaction, cmd_name, cmd_data)
+            }
         }
     }
+}
