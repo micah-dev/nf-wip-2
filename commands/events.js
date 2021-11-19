@@ -15,7 +15,7 @@ module.exports = {
     slash: true,
     testOnly: true,
 
-    expectedArgs: '[category]',
+    expectedArgs: '[rec/work/social/entertainment/info]',
     maxArgs: 1,
 
     callback: async ({ interaction, args }) => {
