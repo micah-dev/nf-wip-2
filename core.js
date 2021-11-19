@@ -60,4 +60,4 @@ client.on('ready', async () => {
 })
 
 
-client.login(secrets.debug_token_001)
+client.login(secrets.discord_token)
