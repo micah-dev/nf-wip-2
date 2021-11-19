@@ -8,6 +8,8 @@
 const Discord = require('discord.js')
 const secrets = require('../secrets.json')
 
+const todo = require('../schema')
+
 // ---------- TODO LOGIC
 
 // For the given user:

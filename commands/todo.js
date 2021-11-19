@@ -1,7 +1,7 @@
 
 const Discord = require('discord.js')
 const secrets = require('../secrets.json')
-const todo = require('../schema')
+const schema = require('../schema')
 // ---------- TODO LOGIC
 
 // For the given user:
@@ -59,7 +59,7 @@ function newTodo(member, interaction, cmd_name, cmd_data) {
     console.log("todo_due_date: ", todo_due_date)
     console.log("todo_due_time: ", todo_due_time)
 
-    new todo({
+    new schema.todo({
         user: user_id,
         name: todo_name,
         date: todo_due_date,
