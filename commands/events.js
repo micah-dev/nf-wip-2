@@ -21,46 +21,46 @@ module.exports = {
 
     callback: async ({ interaction }) => {
 
-        let args = ''
+        // let args = ''
 
-        if (args.length == 0) {
-            console.log('do default')
-        } else {
-            console.log('use ' + args)
-        }
+        // if (args.length == 0) {
+        //     console.log('do default')
+        // } else {
+        //     console.log('use ' + args)
+        // }
 
-        await interaction.deferReply({ ephemeral: false })
-        await new Promise(resolve => setTimeout(resolve, 5000))
+        // await interaction.deferReply({ ephemeral: false })
+        // await new Promise(resolve => setTimeout(resolve, 5000))
 
-        // const browser = await puppeteer.launch()
-        // const page = await browser.newPage()
-        // await page.goto(lookupURL)
-        // const element = await page.$('#tncms-block-786297')
-        // await element.screenshot({ path: tempPath })
-        // page.close();
+        // // const browser = await puppeteer.launch()
+        // // const page = await browser.newPage()
+        // // await page.goto(lookupURL)
+        // // const element = await page.$('#tncms-block-786297')
+        // // await element.screenshot({ path: tempPath })
+        // // page.close();
 
-        const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
-        const embed = new Discord.MessageEmbed()
-            .setColor('RED')
-            .setTitle(`FOOD 🍕`)
-            .setImage(`attachment://${tempFile}`)
-            .setTimestamp()
+        // const attachment = new Discord.MessageAttachment(`./commands/temp/${tempFile}`);
+        // const embed = new Discord.MessageEmbed()
+        //     .setColor('RED')
+        //     .setTitle(`FOOD 🍕`)
+        //     .setImage(`attachment://${tempFile}`)
+        //     .setTimestamp()
 
-        const button = new Discord.MessageActionRow()
-            .addComponents(
-                new Discord.MessageButton()
-                    .setURL(`${lookupURL}`)
-                    .setLabel('View on Web')
-                    .setStyle('LINK')
-            )
+        // const button = new Discord.MessageActionRow()
+        //     .addComponents(
+        //         new Discord.MessageButton()
+        //             .setURL(`${lookupURL}`)
+        //             .setLabel('View on Web')
+        //             .setStyle('LINK')
+        //     )
 
         
-        interaction.editReply({
-            //ephemeral: true,
-            embeds: [embed],
-            files: [attachment],
-            components: [button],
-        })
+        // interaction.editReply({
+        //     //ephemeral: true,
+        //     embeds: [embed],
+        //     files: [attachment],
+        //     components: [button],
+        // })
 
 
 
