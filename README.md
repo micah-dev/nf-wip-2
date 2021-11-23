@@ -1,4 +1,4 @@
 # nf-wip-2
 
-## will replace ninerflow.
-## uses slash commands and wokcommands command handler.
+## Using this to test Discord v13.
+## Will eventually move this to the official NinerFlow repo.
