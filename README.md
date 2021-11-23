@@ -77,51 +77,49 @@ Prerequisites for running the codebase are:
 * Shows all available commands.
 * Ex: `/help`
 
-#### `\events`
+#### `/events`
 * Shows UNCC calendar events, or optionally more specific events.
-* Ex: `\events`
-* Ex: `\events rec`
-* Ex: `\events social`
-* Ex: `\events entertainment`
-* Ex: `\events info`
+* Ex: `/events`
+* Ex: `/events rec`
+* Ex: `/events social`
+* Ex: `/events entertainment`
+* Ex: `/events info`
 
-#### `\weather`
+#### `/weather`
 * Shows UNCC local weather.
-* Ex: `\weather`
+* Ex: `/weather`
 
-#### `links`
+#### `/links`
 * Shows useful web resources from NinerNet.
-* Ex: `\links`
+* Ex: `/links`
 
-#### `\food`
+#### `/food`
 * Shows nearby campus dining options.
-* Ex: `\food`
+* Ex: `/food`
 
-#### `\walk <origin> <destination>`
+#### `/walk <origin> <destination>`
 * Shows the fasted walking path between two buildings a and b.
-* Ex: `\walk Fretwell, Burson`
+* Ex: `/walk Fretwell, Burson`
 
-#### `\bus`
+#### `/bus`
 * Shows UNCC bus routes.
-* Ex: `\bus`
+* Ex: `/bus`
 
-
-
-#### `\rate ProfessorName`
+#### `/rate ProfessorName`
 * Shows a professor's UNCC ratemyprofessor profile.
-* Ex: `\rate Amy Good`
-* Ex: `\rate James Rudd`
-* Ex: `\rate Jasmine Strickland`
+* Ex: `/rate Amy Good`
+* Ex: `/rate James Rudd`
+* Ex: `/rate Jasmine Strickland`
 
-#### `\todo -list` `\todo -new <name> <due_date> <due_time>` `\todo -delete` `\todo -clear`
+#### `/todo -list` `/todo -new <name> <due_date> <due_time>` `/todo -delete` `/todo -clear`
 * Create a todo list and get task reminders.
 * Ex: `\todo -new Take out the trash 11/23/2021 11pm`
 * Ex: `\todo -list`
 * Ex: `\todo -delete Take out the trash`
 
-#### `\class -list` `\class -new <name> <days_active> <start_time> <end_time>` `\class -delete` `\class -clear`
+#### `/class -list` `/class -new <name> <days_active> <start_time> <end_time>` `/class -delete` `/class -clear`
 * View your class schedule and get class reminders.
-* Ex: `\class -new Machine Learning M 10:10am 1:10pm`
-* Ex: `\class -list`
-* Ex: `\class -new Computer Vision M W 2:30pm 3:45pm`
-* Ex: `\class -clear`
+* Ex: `/class -new Machine Learning M 10:10am 1:10pm`
+* Ex: `/class -list`
+* Ex: `/class -new Computer Vision M W 2:30pm 3:45pm`
+* Ex: `/class -clear`
