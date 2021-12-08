@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const Discord = require('discord.js');
 
-const tempFile = `news.png`
+const tempFile = `events.png`
 const tempPath = `./commands/temp/${tempFile}`
 const logo = 'https://media.discordapp.net/attachments/886347148386529291/894761080348368966/bot_logo-white_on_transparent-06.png?width=850&height=858'
 
@@ -15,19 +15,54 @@ module.exports = {
     slash: true,
     testOnly: true,
 
-    expectedArgs: '[category]',
-    maxArgs: 1,
+    //expectedArgs: '[category]',
+    //maxArgs: 1,
+
+    options: [
+        {
+            name: 'category',
+            description: 'Optionally get news by category.',
+            type: 3,
+            required: false,
+            choices: [
+                {
+                    name: 'recreation',
+                    value: 'recreation',
+                },
+                {
+                    name: 'work',
+                    value: 'work',
+                },
+                {
+                    name: 'social',
+                    value: 'social',
+                },
+                {
+                    name: 'entertainment',
+                    value: 'entertainment',
+                },
+                {
+                    name: 'info',
+                    value: 'info',
+                },
+            ]
+        }
+    ],
 
     callback: async ({ interaction, args }) => {
-        await interaction.deferReply({ ephemeral: false })
+        
+        if (!(interaction.commandName === 'events')) return
+
+        await interaction.deferReply({ ephemeral: true })
         let selector = `#event_results`
         let home = `#tabs-19063-19065 > div`
         let title = ``
         let lookupURL = ``
+
         if (args[0] != null) {
             selector = `#event_results`
             switch (args[0]) {
-                case 'rec':
+                case 'recreation':
                     title = "Sports & Recreational"
                     lookupURL = `https://campusevents.uncc.edu/calendar?event_types%5B%5D=30511197162301` //#event_results
                     break;

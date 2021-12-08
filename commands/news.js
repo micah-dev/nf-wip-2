@@ -41,7 +41,7 @@ module.exports = {
                     .setStyle('LINK')
             )
 
-        await interaction.deferReply({ ephemeral: false })
+        await interaction.deferReply({ ephemeral: true })
         await interaction.editReply({
             //ephemeral: true,
             embeds: [embed],

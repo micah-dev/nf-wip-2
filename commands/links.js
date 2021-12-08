@@ -47,7 +47,7 @@ module.exports = {
 
         // Send the response
         interaction?.reply({
-            ephemeral: false,
+            ephemeral: true,
             embeds: [embed_reply]
         })
 

@@ -21,13 +21,13 @@ module.exports = {
     expectedArgs: "<ProfessorName>",
     minArgs: 1,
     maxArgs: 1,
-    syntaxError: 'Incorrect usage! Please use "/rate full name"',
+    syntaxError: 'Incorrect usage! Please use "/rate <FirstName LastName>"',
 
     callback: async ({ interaction, args }) => {
         let professorName = args[0].replace(" ", '%20')
         let newURL = lookupURL.replace('NAME', professorName)
 
-        await interaction.deferReply({ ephemeral: false })
+        await interaction.deferReply({ ephemeral: true })
         const browser = await puppeteer.launch({ headless: true })
         const page = await browser.newPage()
         await page.goto(newURL)

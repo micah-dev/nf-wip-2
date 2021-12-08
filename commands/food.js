@@ -17,7 +17,7 @@ module.exports = {
     testOnly: true,
 
     callback: async ({ interaction }) => {
-        await interaction.deferReply({ ephemeral: false })
+        await interaction.deferReply({ ephemeral: true })
         https.get(lookupURL, res => {
             let data = ''
             res.on('data', chunk => {

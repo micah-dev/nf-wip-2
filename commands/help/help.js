@@ -12,6 +12,8 @@ module.exports = {
     slash: true,
     testOnly: true,
 
+    // TODO: seperate help menu by cmd category
+
     callback: async ({ interaction, instance }) => {
         const embed = new Discord.MessageEmbed()
             .setColor('#008080')
@@ -25,7 +27,7 @@ module.exports = {
 
         // Send the response
         interaction?.reply({
-            ephemeral: false,
+            ephemeral: true,
             embeds: [embed]
         })
 

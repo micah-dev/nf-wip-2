@@ -18,6 +18,7 @@ module.exports = {
     category: 'Testing',
     description: 'Shows UNCC weekly weather forecast.',
     guildOnly: true,
+    hidden: true,
 
     slash: true, // We will only use slash commands for this version
     testOnly: true, // Instant access to slash commands. Global use can take up to 2 hours to initialize in servers.

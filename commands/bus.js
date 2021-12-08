@@ -21,7 +21,7 @@ module.exports = {
 
         // Send an initial reply within 3 seconds, and then edit that reply.
         await interaction.deferReply({
-            ephemeral: false
+            ephemeral: true
         })
         await new Promise(resolve => setTimeout(resolve, 5000))
 
