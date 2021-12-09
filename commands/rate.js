@@ -18,10 +18,10 @@ module.exports = {
     testOnly: true,
 
     // Arguments
-    expectedArgs: "<ProfessorName>",
+    expectedArgs: "<Professor Name>",
     minArgs: 1,
     maxArgs: 1,
-    syntaxError: 'Incorrect usage! Please use "/rate <FirstName LastName>"',
+    syntaxError: 'Incorrect usage! Please use "/rate <Firstname Lastname>"',
 
     callback: async ({ interaction, args }) => {
         let professorName = args[0].replace(" ", '%20')

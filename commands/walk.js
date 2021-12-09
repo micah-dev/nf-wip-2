@@ -70,7 +70,28 @@ module.exports = {
                 response = staticImageApiBaseUrl + staticImageQueryParams
                 //console.log(response)
 
-                const embed = new Discord.MessageEmbed()
+                // if response is too large, just send a
+                if (response.length >= 2000) {
+                    //error
+                    console.log(response.length)
+                    
+                    const fail_embed = new Discord.MessageEmbed()
+                        .setColor('RED')
+                        .setTitle(`Sorry 😭, the request failed.`)
+                        //.setTitle(`Walk`)
+                        .setDescription(`${lookupURL}`)
+                        //.setImage(response)
+                        //.setThumbnail(url = logo)
+                        .setTimestamp()
+
+                    interaction.editReply({
+                        embeds: [fail_embed],
+                        //components: [fail_button],
+                    })
+
+
+                } else {
+                    const embed = new Discord.MessageEmbed()
                     .setColor('RED')
                     .setTitle(`${a} to ${b} 🗺️`)
                     //.setTitle(`Walk`)
@@ -78,19 +99,21 @@ module.exports = {
                     //.setThumbnail(url = logo)
                     .setTimestamp()
 
-                const button = new Discord.MessageActionRow()
-                    .addComponents(
-                        new Discord.MessageButton()
-                            .setURL(`${lookupURL}`)
-                            .setLabel('View on Web')
-                            .setStyle('LINK')
-                    )
+                    const button = new Discord.MessageActionRow()
+                        .addComponents(
+                            new Discord.MessageButton()
+                                .setURL(`${lookupURL}`)
+                                .setLabel('View on Web')
+                                .setStyle('LINK')
+                        )
+
+                    interaction.editReply({
+                        embeds: [embed],
+                        components: [button],
+                    })
+                }
+
                 
-                
-                interaction.editReply({
-                    embeds: [embed],
-                    components: [button],
-                })
             });
         })
 

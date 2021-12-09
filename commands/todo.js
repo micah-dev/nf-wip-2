@@ -5,6 +5,7 @@ const todoSchema = require('../models/todo-schema')
 // DONE crashes if list is empty
 // parse date entry
 // auto remind
+// NOT DOING buttons to complete or delete
 // DONE delete based on id
 // DONE generate an id for every new todo
 // DONE if there are more than 10 todos, dont send them as embeds

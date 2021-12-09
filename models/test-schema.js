@@ -4,21 +4,21 @@ const { Schema } = mongoose
 const schema = new Schema({
     userID: {
         type: String,
-        required: true
-    },
-    content: {
-        type: Array,
         required: true,
     },
-    daysActive: {
-        type: Array,
+    name: {
+        type: String,
         required: true,
     },
-    remindTime: {
+    date: {
+        type: Date,
+        required: true,
+    },
+    time: {
         type: Date,
         required: true,
     }
 })
 
-const name = "brief_item"
+const name = "test_item"
 module.exports = mongoose.models[name] || mongoose.model(name, schema)

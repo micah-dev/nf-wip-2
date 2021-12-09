@@ -1,4 +1,3 @@
-
 const Discord = require('discord.js')
 const secrets = require('../secrets.json')
 const classSchema = require('../models/class-schema')
@@ -7,6 +6,7 @@ const classSchema = require('../models/class-schema')
 // parse date entry
 // make days active a choice or array or buttons?
 // auto remind
+// format as a schedule
 // DONE delete based on id
 // DONE generate an id for every new class
 // DONE if there are more than 10 todos, dont send them as embeds
