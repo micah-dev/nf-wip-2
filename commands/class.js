@@ -61,7 +61,7 @@ function formatClasses(user_class_list) {
 }
 
 // Lists all class items for a requester.
-async function listClasses(user_id, user_name, interaction, cmd_name, cmd_data, class_item_collection) {
+async function listClasses(user_id, user_name, interaction, class_item_collection) {
 
     // If the user has no class items added
     // TODO: if the collection doesnt exist, return error
@@ -282,7 +282,7 @@ module.exports = {
 
         switch (interaction.options.getSubcommand()) {
             case 'list':
-                listClasses(user_id, user_name, interaction, cmd_name, cmd_data, class_item_collection)
+                listClasses(user_id, user_name, interaction, class_item_collection)
                 break;
             case 'new':
                 newClass(user_id, user_name, interaction, cmd_name, cmd_data, class_item_collection)
@@ -296,3 +296,5 @@ module.exports = {
         }
     }
 }
+
+//module.exports.listClasses = listClasses

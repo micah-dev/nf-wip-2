@@ -64,52 +64,61 @@ module.exports = {
                 body += data;
             });
             res.on("end", () => {
-                body = JSON.parse(body);
-                polyline = body.routes[0].overview_polyline.points
-                staticImageQueryParams = polyline + staticImageStyleQueryParams + "&maptype=hybrid&key=" + secrets.GOOGLE_API_KEY
-                response = staticImageApiBaseUrl + staticImageQueryParams
+
+                try {
+                    body = JSON.parse(body);
+                    polyline = body.routes[0].overview_polyline.points
+                    staticImageQueryParams = polyline + staticImageStyleQueryParams + "&maptype=hybrid&key=" + secrets.GOOGLE_API_KEY
+                    response = staticImageApiBaseUrl + staticImageQueryParams
                 //console.log(response)
 
-                // if response is too large, just send a
-                if (response.length >= 2000) {
-                    //error
-                    console.log(response.length)
-                    
-                    const fail_embed = new Discord.MessageEmbed()
+                //try {
+                    // if response is too large, just send a
+                    if (response.length >= 2000) {
+                        //error
+                        console.log(response.length)
+                        
+                        const fail_embed = new Discord.MessageEmbed()
+                            .setColor('RED')
+                            .setTitle(`Sorry 😭, the request failed.`)
+                            .setDescription(`[View on Web](${lookupURL})`)
+                            .setTimestamp()
+
+                        interaction.editReply({
+                            embeds: [fail_embed],
+                        })
+
+
+                    } else {
+                        const embed = new Discord.MessageEmbed()
                         .setColor('RED')
-                        .setTitle(`Sorry 😭, the request failed.`)
-                        //.setTitle(`Walk`)
-                        .setDescription(`${lookupURL}`)
-                        //.setImage(response)
-                        //.setThumbnail(url = logo)
+                        .setTitle(`${a} to ${b} 🗺️`)
+                        .setImage(response)
                         .setTimestamp()
+
+                        const button = new Discord.MessageActionRow()
+                            .addComponents(
+                                new Discord.MessageButton()
+                                    .setURL(`${lookupURL}`)
+                                    .setLabel('View on Web')
+                                    .setStyle('LINK')
+                            )
+
+                        interaction.editReply({
+                            embeds: [embed],
+                            components: [button],
+                        })
+                    }
+                } catch (error) {
+                    //
+                    const fail_embed = new Discord.MessageEmbed()
+                            .setColor('RED')
+                            .setTitle(`Sorry 😭, the request failed.`)
+                            .setDescription(`[View on Web](${lookupURL})`)
+                            .setTimestamp()
 
                     interaction.editReply({
                         embeds: [fail_embed],
-                        //components: [fail_button],
-                    })
-
-
-                } else {
-                    const embed = new Discord.MessageEmbed()
-                    .setColor('RED')
-                    .setTitle(`${a} to ${b} 🗺️`)
-                    //.setTitle(`Walk`)
-                    .setImage(response)
-                    //.setThumbnail(url = logo)
-                    .setTimestamp()
-
-                    const button = new Discord.MessageActionRow()
-                        .addComponents(
-                            new Discord.MessageButton()
-                                .setURL(`${lookupURL}`)
-                                .setLabel('View on Web')
-                                .setStyle('LINK')
-                        )
-
-                    interaction.editReply({
-                        embeds: [embed],
-                        components: [button],
                     })
                 }
 

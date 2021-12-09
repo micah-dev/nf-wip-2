@@ -6,18 +6,22 @@ const schema = new Schema({
         type: String,
         required: true
     },
-    content: {
-        type: Array,
+    enable_class_list: {
+        type: Boolean,
         required: true,
     },
-    daysActive: {
-        type: Array,
+    enable_todo_list: {
+        type: Boolean,
         required: true,
     },
-    remindTime: {
-        type: Date,
+    enable_weather: {
+        type: Boolean,
         required: true,
-    }
+    },
+    enable_news: {
+        type: Boolean,
+        required: true,
+    },
 })
 
 const name = "brief_item"
